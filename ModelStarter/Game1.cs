@@ -13,6 +13,7 @@ namespace ModelStarter
         SpriteBatch spriteBatch;
         Terrain terrain;
         CirclingCamera camera;
+        Tank tank;
 
         public Game1()
         {
@@ -43,7 +44,8 @@ namespace ModelStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
             camera = new CirclingCamera(this, new Vector3(0, 50, -100), 0.05f);
             Texture2D heightmap = Content.Load<Texture2D>("heightmap");
-            terrain = new Terrain(this, heightmap, 10f, Matrix.CreateTranslation(-127f, 0, 127));// Matrix.CreateTranslation(-128, 0, -128));            
+            terrain = new Terrain(this, heightmap, 10f, Matrix.CreateTranslation(-127f, 0, 127));// Matrix.CreateTranslation(-128, 0, -128));
+            tank = new Tank(this);                                                                                     // 
 
             // TODO: use this.Content to load your game content here
         }
@@ -67,8 +69,9 @@ namespace ModelStarter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            tank.Update(gameTime);
             camera.Update(gameTime);
-
+            tank.Draw(Matrix.Identity, camera.View, camera.Projection);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -83,7 +86,7 @@ namespace ModelStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             terrain.Draw(camera);
-
+            tank.Draw(Matrix.Identity, camera.View, camera.Projection);
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
