@@ -12,7 +12,7 @@ namespace ModelStarter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Terrain terrain;
-        CirclingCamera camera;
+        ChaseCamera camera;
         Tank tank;
 
         public Game1()
@@ -42,10 +42,11 @@ namespace ModelStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            camera = new CirclingCamera(this, new Vector3(0, 50, -100), 0.05f);
+            camera = new ChaseCamera(this, new Vector3(0, 10, -30));
             Texture2D heightmap = Content.Load<Texture2D>("heightmap");
             terrain = new Terrain(this, heightmap, 10f, Matrix.CreateTranslation(-127f, 0, 127));// Matrix.CreateTranslation(-128, 0, -128));
-            tank = new Tank(this);                                                                                     // 
+            tank = new Tank(this);
+            camera.Target = tank; 
 
             // TODO: use this.Content to load your game content here
         }
